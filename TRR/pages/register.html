@@ -1,0 +1,313 @@
+<h1>{{ title }}</h1>
+<!-- h3>{{ subtitle }}</h3 -->
+<hr />
+<form name="userForm" class="form-horizontal" role="form" class="user-form" ng-model="user" novalidate>
+  <div class="form-group form-group-lg">
+		<label class="col-sm-2 control-label">{{ typetitle }}</label>
+		<div class="col-sm-10">
+      <div class="col-xs-4 input-lg">
+        <input type="radio" class="radio-inline" ng-model="type" value="Employee"> Employee
+      </div>
+      <div class="col-xs-4 input-lg">
+        <input type="radio" class="radio-inline" ng-model="type" value="Employer"> Employer/Agency
+      </div>
+		</div>	
+	</div>
+	<div id="demployed" class="form-group form-group-lg" 
+       ng-show="type === 'Employee'"  
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.employer.$invalid && userForm.employer.$dirty, 
+								 'has-success': userForm.employer.$valid && userForm.employer.$dirty }" >
+		<label class="col-sm-2 control-label">{{ employertitle }}</label>
+		<div class="col-sm-10">
+			<select type="input" 
+              class="form-control" 
+              name="employer" 
+              placeholder="Select Employer" 
+              ng-model="user.employer" 
+              ng-require="type === 'Employee'">
+        <option>ABC Corporation</option>
+        <option>XYZ Enterprises</option>
+      </select>
+		</div>
+	</div>
+  <div id="dcompany" class="form-group form-group-lg" 
+       ng-show="type === 'Employer'" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.company.$invalid && userForm.company.$dirty && user.company.length > 1, 
+								 'has-success': userForm.company.$valid && userForm.company.$dirty}">
+		<label class="col-sm-2 control-label">{{ companytitle }}</label>
+		<div class="col-sm-10">
+			<input type="text" 
+						 class="form-control" 
+             id="company" 
+						 name="company" 
+						 placeholder="Company" 
+						 maxlength="50" 
+						 pattern="[a-zA-Z'`- ]+" 
+						 ng-model="user.company" 
+						 ng-maxlength="50" 
+						 ng-required="type === 'Employer'">
+		</div>	
+	</div>
+  <hr />
+	<!--p>
+		<code class="success">userForm.firstname.$untouched {{ userForm.firstname.$untouched }}</code><br />
+		<code class="success">userForm.firstname.$pristine {{ userForm.firstname.$pristine }}</code><br />
+		<code class="success">userForm.firstname.$touched {{ userForm.firstname.$touched }}</code><br />
+		<code class="success">userForm.firstname.$dirty {{ userForm.firstname.$dirty }}</code><br />
+		<code class="success">userForm.firstname.$error.pattern {{ userForm.firstname.$error.pattern }}</code><br />
+		<code class="success">userForm.firstname.$error.maxlength {{ userForm.firstname.$error.maxlength }}</code><br />
+		<code class="success">userForm.firstname.$error.minlength {{ userForm.firstname.$error.minlength }}</code><br />
+		<code class="success">userForm.firstname.$error.required {{ userForm.firstname.$error.required }}</code><br />
+		<code class="success">userForm.firstname.$invalid {{ userForm.birthdate.$invalid }}</code><br />
+		<code class="success">userForm.firstname.$valid {{ userForm.birthdate.$valid }}</code><br />
+	</p-->
+  <div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.firstname.$invalid && userForm.firstname.$dirty && user.firstname.length > 1, 
+								 'has-success': userForm.firstname.$valid && userForm.firstname.$dirty}">
+		<label class="col-sm-2 control-label">{{ firstnametitle }}</label>
+		<div class="col-sm-10">
+			<input type="text" 
+						 class="form-control" 
+             id="firstname" 
+						 name="firstname" 
+						 placeholder="First Name" 
+						 maxlength="50" 
+						 pattern="[a-zA-Z'`-]+" 
+						 ng-model="user.firstname" 
+						 ng-maxlength="50" 
+						 ng-change="changeFirstName()" 
+						 ng-required="true">
+		</div>	
+	</div>
+	<div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.lastname.$invalid && userForm.lastname.$dirty && user.lastname.length > 1, 
+								 'has-success': userForm.lastname.$valid && userForm.lastname.$dirty}">
+		<label class="col-sm-2 control-label">{{ lastnametitle }}</label>
+		<div class="col-sm-10">
+			<input type="text" 
+						 class="form-control" 
+						 name="lastname" 
+						 placeholder="Last Name" 
+						 maxlength="50" 
+						 pattern="[a-zA-Z'`-]+"
+						 ng-model="user.lastname" 
+						 ng-maxlength="50"
+						 ng-change="changeLastName()">
+		</div>
+	</div>
+	<div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.address.$invalid && userForm.address.$dirty && user.address.length > 1, 
+								 'has-success': userForm.address.$valid && userForm.address.$dirty}">
+		<label class="col-sm-2 control-label">{{ addresstitle }}</label>
+		<div class="col-sm-10">
+			<input type="text" 
+						 class="form-control" 
+						 name="address" 
+						 placeholder="Address" 
+						 maxlength="50" 
+						 pattern="[a-zA-Z0-9'`- ]+"
+						 ng-model="user.address" 
+						 ng-maxlength="50"
+						 ng-change="changeAddress()">
+		</div>
+	</div>
+  <div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.city.$invalid && userForm.city.$dirty, 
+								 'has-success': userForm.city.$valid && userForm.city.$dirty}">
+		<label class="col-sm-2 control-label">{{ citytitle }}</label>
+		<div class="col-sm-10">
+			<input type="text" 
+						 class="form-control" 
+						 name="city" 
+						 placeholder="City" 
+						 maxlength="50" 
+						 pattern="[a-zA-Z'`- ]+"
+						 ng-model="user.city" 
+						 ng-maxlength="30"
+						 ng-change="changeCity()">
+		</div>
+	</div>
+  <div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.state.$invalid && userForm.state.$dirty && user.state.length > 1, 
+								 'has-success': userForm.state.$valid && userForm.state.$dirty}">
+		<label class="col-sm-2 control-label">{{ statetitle }}</label>
+		<div class="col-sm-10">
+			<input type="text" 
+						 class="form-control" 
+						 name="state" 
+						 placeholder="State" 
+						 maxlength="2" 
+						 pattern="[A-Z]+"
+						 ng-model="user.state" 
+						 ng-maxlength="2"
+						 ng-change="changeState()">
+		</div>
+	</div>
+  <div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.zipcode.$invalid && userForm.zipcode.$dirty && user.zipcode.length > 1, 
+								 'has-success': userForm.zipcode.$valid && userForm.zipcode.$dirty}">
+		<label class="col-sm-2 control-label">{{ zipcodetitle }}</label>
+		<div class="col-sm-10">
+			<input type="number" 
+						 class="form-control" 
+						 name="zipcode" 
+						 placeholder="Zipcode"
+             minlength="5" 
+						 maxlength="10" 
+						 pattern="[0-9-]+"
+						 ng-model="user.zipcode" 
+             ng-minlength="5"
+						 ng-maxlength="10"
+						 ng-change="changeZipcode()">
+		</div>
+	</div>
+  <div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.phone.$invalid && userForm.phone.$dirty && user.phone.length > 1, 
+								 'has-success': userForm.phone.$valid && userForm.phone.$dirty}">
+		<label class="col-sm-2 control-label">{{ phonetitle }}</label>
+		<div class="col-sm-10">
+			<input type="tel" 
+						 class="form-control" 
+						 name="phone" 
+						 placeholder="Phone Number"
+             minlength="10"
+						 maxlength="14" 
+						 pattern="[0-9-]+"
+						 ng-model="user.phone"
+             ng-minlength="10"
+						 ng-maxlength="14"
+						 ng-change="changePhone()">
+		</div>
+	</div>
+  <!-- p>
+		<code class="success">userForm.email.$pristine {{ userForm.email.$pristine }}</code><br />
+		<code class="success">userForm.email.$untouched {{ userForm.email.$untouched }}</code><br />
+		<code class="success">userForm.email.$touched {{ userForm.email.$touched }}</code><br />
+		<code class="success">userForm.email.$dirty {{ userForm.email.$dirty }}</code><br /><br />
+		
+		<code class="success">userForm.email.$error.minlength {{ userForm.email.$error.minlength }}</code><br />
+		<code class="success">userForm.email.$error.maxlength {{ userForm.email.$error.maxlength }}</code><br />
+		<code class="success">userForm.email.$error.pattern {{ userForm.email.$error.pattern }}</code><br />
+		<code class="success">userForm.email.$error.required {{ userForm.email.$error.required }}</code><br /><br />
+		
+		<code class="success">userForm.email.$valid {{ userForm.email.$valid }}</code><br />
+		<code class="success">userForm.email.$invalid {{ userForm.email.$invalid }}</code><br />
+		<code class="success">userForm.email.$required {{ userForm.email.$required }}</code><br />
+	</p -->
+	<div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+                 'has-error': userForm.email.$invalid && userForm.email.$dirty && user.email.length > 2, 
+							   'has-success': userForm.email.$valid }">
+		<label class="col-sm-2 control-label">{{ emailtitle }}</label>
+    <!--  /^.+@.+\..+$/ old-pattern  -->
+		<div class="col-sm-10">
+			<input type="email" 
+						 class="form-control" 
+             id="email" 
+						 name="email" 
+						 pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" 
+						 maxlength="56" 
+						 placeholder="Email Address" 
+						 ng-change="changeEmail()" 
+						 ng-model="user.email" 
+						 ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" 
+						 ng-maxlength="56" 
+						 ng-required="true">
+		</div>
+	</div>
+	<div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.password.$invalid && userForm.password.$dirty, 
+								 'has-success': userForm.password.$valid && userForm.password.$dirty }" >
+		<label class="col-sm-2 control-label">{{ passwordtitle }}</label>
+		<div class="col-sm-10">
+			<input type="password" 
+						 class="form-control" 
+						 name="password" 
+						 placeholder="Create Password" 
+						 ng-change="changePassword()" 
+						 ng-model="user.password" 
+						 ng-minlength="1" 
+						 ng-required="true">
+			</div>
+	</div>
+	<div class="form-group form-group-lg" 
+			 show-errors="{showSuccess: true}" 
+			 ng-class="{ 
+								 'has-error': userForm.verify.$invalid && userForm.verify.$dirty, 
+								 'has-success': userForm.verify.$valid && userForm.verify.$dirty }" >
+		<label class="col-sm-2 control-label">{{ verifytitle }}</label>
+		<div class="col-sm-10">
+			<input type="password" 
+						 class="form-control" 
+						 name="verify" 
+						 placeholder="Verify Password" 
+						 ng-model="user.verify" 
+						 ng-change="changeVerify()" 
+						 ng-required="true">
+		</div>
+	</div>
+	<hr />
+	<!--p>
+		<code>userForm.$valid {{ userForm.$valid }}</code><br/>
+		<code>userForm.$invalid {{ userForm.$invalid }}</code><br/>
+		<code>userForm.$pristine {{ userForm.$pristine }}</code><br/>
+		<code>userForm.$dirty {{ userForm.$dirty }}</code><br/>
+		<code>userForm.$pending {{ userForm.$pending }}</code><br/>
+		<code>userForm.$submitted {{ userForm.$submitted }}</code><br/><br/>
+		<code>userForm.$error.email {{ userForm.$error.email  }}</code><br/>
+		<code>userForm.$error.min {{ userForm.$error.min  }}</code><br/>
+		<code>userForm.$error.max {{ userForm.$error.max  }}</code><br/>
+		<code>userForm.$error.minlength {{ userForm.$error.minlength  }}</code><br/>
+		<code>userForm.$error.number {{ userForm.$error.number  }}</code><br/>
+		<code>userForm.$error.url {{ userForm.$error.url  }}</code><br/>
+		<code>userForm.$error.date {{ userForm.$error.date  }}</code><br/>
+		<code>userForm.$error.datetimelocal {{ userForm.$error.datetimelocal  }}</code><br/>
+		<code>userForm.$error.month {{ userForm.$error.month  }}</code><br/>
+		<code>userForm.$error.week {{ userForm.$error.week  }}</code><br/>
+		<code>userForm.$error.time {{ userForm.$error.time  }}</code><br/>
+		<code>userForm.$error.pattern {{ userForm.$error.pattern  }}</code><br/>
+		<code>userForm.$error.required {{ userForm.$error.required  }}</code><br/>
+	</p-->
+	<div class="form-group form-group-lg">
+		<div class="col-sm-12">
+			<button 
+							type="submit" 
+				 			id="submit" 
+              name="submit" 
+              value="submit" 
+							class="btn btn-default btn-lg pull-left" 
+							mozactionhint="register" 
+							ng-click="Register()" 
+							ng-class="{ 'btn-default': userForm.$invalid, 'btn-success': userForm.$valid }" 
+							ng-disabled="userForm.$invalid">Register</button>
+			<button 
+							type="reset" 
+							class="btn btn-default btn-lg pull-right" 
+							mozactionhint="reset" 
+							ng-click="registerReset()">Reset</button>
+		</div>
+	</div>
+</form>
+<footer>
+</footer>
